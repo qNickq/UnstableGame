@@ -10,11 +10,13 @@ CONFIG += c++11
 
 SOURCES += \
     game.cpp \
+    keygraphicview.cpp \
     main.cpp \
     menu.cpp
 
 HEADERS += \
     game.h \
+    keygraphicview.h \
     menu.h
 
 FORMS += \

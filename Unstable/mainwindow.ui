@@ -6,58 +6,35 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>819</width>
+    <height>583</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="KeyGraphicView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>0</y>
+      <width>151</width>
+      <height>541</height>
+     </rect>
+    </property>
+    <property name="cacheMode">
+     <set>QGraphicsView::CacheBackground</set>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView_2">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>651</width>
+      <width>631</width>
       <height>541</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QWidget" name="widget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>0</y>
-      <width>120</width>
-      <height>541</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>480</y>
-      <width>151</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>430</x>
-      <y>480</y>
-      <width>201</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
     </property>
    </widget>
   </widget>
@@ -66,13 +43,20 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>819</width>
      <height>21</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KeyGraphicView</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">keygraphicview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

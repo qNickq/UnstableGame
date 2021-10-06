@@ -30,9 +30,28 @@ KeyGraphicView::KeyGraphicView(QWidget *parent)
     connect(timer, SIGNAL(timeout()), this, SLOT(slotAlarmTimer()));
     timer->start(50);                   // Стартуем таймер на 50 миллисекунд
 
+    // Update Temporary timer
     QTimer* timerUpdate = new QTimer();
     connect(timerUpdate, SIGNAL(timeout()), this, SLOT(slotUpdateTimer()));
     timerUpdate->start(100);
+
+    // Timer for updating difficult
+    QTimer* timerDifficult = new QTimer();
+    connect(timerDifficult, SIGNAL(timeout()), this, SLOT(slotDifficultKeyBoxTimer()));
+    timerDifficult->start(1000);
+
+    // Timer for generating new keyBoxes
+    timerGenerate = new QTimer();
+    connect(timerGenerate, SIGNAL(timeout()), this, SLOT(slotGenerateKeyBoxTimer()));
+    timerGenerate->start(this->currentGenerateTimeout);
+
+    // Timer for updating positions of keyBoxes
+    QTimer* timerKeyBox = new QTimer();
+    connect(timerKeyBox, SIGNAL(timeout()), this, SLOT(slotKeyBoxTimer()));
+    timerKeyBox->start(100);
+
+    this->keyBoxes.reserve(10);
+
 }
 
 KeyGraphicView::~KeyGraphicView()
@@ -45,6 +64,40 @@ void KeyGraphicView::slotUpdateTimer()
     this->color = (this->color == Qt::red ? Qt::blue : Qt::red);
 }
 
+
+void KeyGraphicView::slotGenerateKeyBoxTimer()
+{
+    auto pFoo = std::make_unique<KeyBox>(startPositions.first, startPositions.second, this->currentSpeed);
+    this->keyBoxes.push_back(std::move(pFoo));
+}
+
+void KeyGraphicView::slotDifficultKeyBoxTimer()
+{
+
+    if(difficult.find(seconds) != difficult.end())
+    {
+        auto dif = difficult.at(seconds);
+        currentSpeed = dif.speed;
+        currentGenerateTimeout = dif.generateTimeout;
+        timerGenerate->setInterval(this->currentGenerateTimeout);
+    }
+    seconds++;
+}
+
+void KeyGraphicView::slotKeyBoxTimer()
+{
+    for(auto& keyBox: keyBoxes)
+    {
+        if(keyBox)
+        {
+            keyBox->updateSpeed();
+        }
+
+    }
+
+    keyBoxes.erase(std::remove_if(keyBoxes.begin(), keyBoxes.end(),
+                           [=](const std::unique_ptr<KeyBox>& keyBox) { return keyBox->getY() > this->maxKeyBoxY; }), keyBoxes.end());
+}
 
 void KeyGraphicView::slotAlarmTimer()
 {
